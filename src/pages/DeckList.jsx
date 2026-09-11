@@ -10,9 +10,7 @@ import ConfirmModal from "../components/ConfirmModal";
 
 function DeckList() {
   const [decks, setDecks] = useState([]);
-
   const [deleteTarget, setDeleteTarget] = useState(null);
-
   const [search, setSearch] = useState("");
   const [subject, setSubject] = useState("");
   const [archived, setArchived] = useState("");
@@ -20,6 +18,7 @@ function DeckList() {
   const [page, setPage] = useState(1);
 
   const [loading, setLoading] = useState(true);
+  const [deleteLoading, setDeleteLoading] = useState(false);
   const [error, setError] = useState("");
 
   const [nextPage, setNextPage] = useState(null);
@@ -69,39 +68,31 @@ function DeckList() {
     setPage(1);
   };
 
-  const [deleteLoading, setDeleteLoading] = useState(false);
+  const handleDelete = async () => {
+    if (!deleteTarget) return;
 
-const handleDelete = async () => {
-  if (!deleteTarget) return;
+    try {
+      setDeleteLoading(true);
+      setError("");
 
-  try {
-    setDeleteLoading(true);
-    setError("");
+      await deleteDeck(deleteTarget.id);
 
-    await deleteDeck(deleteTarget.id);
+      setDeleteTarget(null);
 
-    setDeleteTarget(null);
-
-    if (decks.length === 1 && page > 1) {
-      setPage((currentPage) => currentPage - 1);
-    } else {
-      loadDecks();
+      if (decks.length === 1 && page > 1) {
+        setPage((currentPage) => currentPage - 1);
+      } else {
+        loadDecks();
+      }
+    } catch (err) {
+      setError(
+        err.response?.data?.detail ||
+          "Failed to delete deck."
+      );
+    } finally {
+      setDeleteLoading(false);
     }
-  } catch (err) {
-    setError(
-      err.response?.data?.detail ||
-        "Failed to delete deck."
-    );
-  } finally {
-    setDeleteLoading(false);
-  }
-};
-
-<DeckCard
-  key={deck.id}
-  deck={deck}
-  onDelete={() => setDeleteTarget(deck)}
-/>
+  };
 
   return (
     <div className="page-container">
@@ -121,6 +112,7 @@ const handleDelete = async () => {
       </div>
 
       <div className="deck-filters">
+
         <input
           type="text"
           placeholder="Search decks..."
@@ -162,6 +154,7 @@ const handleDelete = async () => {
             Archived
           </option>
         </select>
+
       </div>
 
       {loading && <Loader />}
@@ -177,16 +170,19 @@ const handleDelete = async () => {
       {!loading && !error && decks.length > 0 && (
         <>
           <div className="deck-list">
+
             {decks.map((deck) => (
               <DeckCard
                 key={deck.id}
                 deck={deck}
-                onDelete={handleDelete}
+                onDelete={() => setDeleteTarget(deck)}
               />
             ))}
+
           </div>
 
           <div className="pagination">
+
             <button
               disabled={!previousPage}
               onClick={() =>
@@ -210,26 +206,26 @@ const handleDelete = async () => {
             >
               Next
             </button>
+
           </div>
         </>
       )}
 
       <ConfirmModal
-  open={!!deleteTarget}
-  title="Delete Deck?"
-  message={
-    deleteTarget
-      ? `Deleting "${deleteTarget.title}" will also delete all cards in this deck.`
-      : ""
-  }
-  onCancel={() => setDeleteTarget(null)}
-  onConfirm={handleDelete}
-  loading={deleteLoading}
-/>
+        open={!!deleteTarget}
+        title="Delete Deck?"
+        message={
+          deleteTarget
+            ? `Deleting "${deleteTarget.title}" will also delete all cards in this deck.`
+            : ""
+        }
+        onCancel={() => setDeleteTarget(null)}
+        onConfirm={handleDelete}
+        loading={deleteLoading}
+      />
+
     </div>
   );
 }
 
 export default DeckList;
-
-
