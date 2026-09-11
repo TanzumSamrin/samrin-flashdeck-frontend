@@ -63,8 +63,18 @@ npm run build
 
 The backend is maintained in a separate repository:
 
+https://github.com/TanzumSamrin/samrin-flashdeck-backend.git
+
 
 The frontend communicates with the Django REST API through the configured `VITE_API_URL`.
+
+
+## Demo Login
+Use the following credentials to explore the app:
+
+- **Username:** Izhaan 
+- **Password:** 123456
+
 
 ## Main Pages
 
@@ -84,6 +94,22 @@ The frontend communicates with the Django REST API through the configured `VITE_
 JWT access and refresh tokens are stored locally by the frontend.
 
 Protected pages require an authenticated user.
+
+
+## Screenshots
+
+### View
+![Dashboard Screenshot](flashdeck-frontend\screenshots\dashboard.png)
+![decks Screenshot](flashdeck-frontend\screenshots\decks.png)
+### Postman
+![Register Screenshot](flashdeck-frontend\screenshots\register.png)
+![Adding deck Screenshot](flashdeck-frontend\screenshots\adding-decks.png)
+![Get decks Screenshot](flashdeck-frontend\screenshots\get-decks.png)
+![Post-cards Screenshot](flashdeck-frontend\screenshots\post-cards.png)
+
+
+
+
 
 ## Project Structure
 
