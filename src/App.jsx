@@ -31,46 +31,45 @@ function App() {
               element={<Register />}
             />
 
-            <Route
-              path="/decks"
-              element={<DeckList />}
-            />
-
-            <Route
-              path="/decks/:id"
-              element={<DeckDetail />}
-            />
-
-            <Route
-              path="/decks/new"
-              element={<DeckForm />}
-            />
-
-            <Route
-              path="/decks/:id/edit"
-              element={<DeckForm />}
-            />
-
-
-            <Route
-              path="/decks/:deckId/cards/new"
-              element={<CardForm />}
-            />
-
-            <Route
-              path="/cards/:id/edit"
-              element={<CardForm />}
-            />
-
-            <Route
-              path="/decks/:id/study"
-              element={<Study />}
-            />
-
             <Route element={<ProtectedRoute />}>
               <Route
                 path="/"
                 element={<Dashboard />}
+              />
+
+              <Route
+                path="/decks"
+                element={<DeckList />}
+              />
+
+              <Route
+                path="/decks/new"
+                element={<DeckForm />}
+              />
+
+              <Route
+                path="/decks/:id"
+                element={<DeckDetail />}
+              />
+
+              <Route
+                path="/decks/:id/edit"
+                element={<DeckForm />}
+              />
+
+              <Route
+                path="/decks/:deckId/cards/new"
+                element={<CardForm />}
+              />
+
+              <Route
+                path="/cards/:id/edit"
+                element={<CardForm />}
+              />
+
+              <Route
+                path="/decks/:id/study"
+                element={<Study />}
               />
             </Route>
           </Routes>
